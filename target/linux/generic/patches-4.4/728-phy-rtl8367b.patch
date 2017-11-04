@@ -13,7 +13,7 @@
 +	select SWCONFIG
 +
  endif # PHYLIB
-+
+ 
  config MICREL_KS8995MA
 --- a/drivers/net/phy/Makefile
 +++ b/drivers/net/phy/Makefile
