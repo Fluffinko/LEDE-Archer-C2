@@ -54,4 +54,20 @@ config wifi-iface default_rai0
 	option encryption none
 
 EOF
+	echo "" >> /etc/config/wireless
+	echo "config wifi-device 'rai0'" >> /etc/config/wireless
+	echo "	option type 'rai0'" >> /etc/config/wireless
+	echo "	option vendor 'ralink'" >> /etc/config/wireless
+	echo "	option band '5G'" >> /etc/config/wireless
+	echo "	option channel '0'" >> /etc/config/wireless
+	echo "	option autoch '2'" >> /etc/config/wireless
+	echo "	option disabled '1'" >> /etc/config/wireless
+	echo "" >> /etc/config/wireless
+	echo "config wifi-iface 'default_rai0'" >> /etc/config/wireless
+	echo "	option device 'rai0'" >> /etc/config/wireless
+	echo "	option ifname 'rai0'" >> /etc/config/wireless
+	echo "	option network 'lan'" >> /etc/config/wireless
+	echo "	option mode 'ap'" >> /etc/config/wireless
+	echo "	option ssid 'LEDE_5G'" >> /etc/config/wireless
+	echo "	option encryption 'none'" >> /etc/config/wireless
 }
