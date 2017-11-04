@@ -10,7 +10,7 @@
  #include "rt2800lib.h"
 @@ -8346,6 +8347,7 @@ static int rt2800_probe_hw_mode(struct r
  	char *default_power3;
- 	unsigned int i;
+ 	unsigned int i, tx_chains, rx_chains;
  	u32 reg;
 +	const void *perm_mac;
  
