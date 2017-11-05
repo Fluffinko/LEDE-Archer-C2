@@ -366,11 +366,24 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 end
 
 function wifi_reconnect(wnet)
-	wifi_reconnect_shutdown(false, wnet)
+	local vendor = dev:get("vendor")
+	if vendor == "ralink" then
+		luci.sys.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % wnet)
+		wifi_reconnect_shutdown(false, wnet)
+	else
+		wifi_reconnect_shutdown(false, wnet)
+	end
 end
 
 function wifi_shutdown(wnet)
-	wifi_reconnect_shutdown(true, wnet)
+	local vendor = dev:get("vendor")
+	if vendor == "ralink" then
+		luci.sys.call("env -i /sbin/ifdown %q >/dev/null 2>/dev/null" % wnet)
+		wifi_reconnect_shutdown(true, wnet)
+	else
+		wifi_reconnect_shutdown(true, wnet)
+	end
+		
 end
 
 function lease_status()
