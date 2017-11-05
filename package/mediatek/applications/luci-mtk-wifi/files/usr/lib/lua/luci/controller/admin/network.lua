@@ -346,14 +346,13 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 	local net = netmd:get_wifinet(wnet)
 	local dev = net:get_device()
 	if dev and net then
-		local vendor = dev:get("vendor")
 		dev:set("disabled", nil)
 		net:set("disabled", shutdown and 1 or nil)
 		netmd:commit("wireless")
 
-		if vendor == "ralink" then
-                        luci.sys.call("env -i /sbin/wifi restart) >/dev/null 2>/dev/null")
-			luci.sys.call("env -i /bin/ubus call network restart >/dev/null 2>/dev/null")
+		if dev == "rai0" then
+                        luci.sys.call("env -i /sbin/wifi reload >/dev/null 2>/dev/null")
+			luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
                 else
 			luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		end
@@ -366,9 +365,8 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 end
 
 function wifi_reconnect(wnet)
-	local vendor = dev:get("vendor")
-	if vendor == "ralink" then
-		luci.sys.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % wnet)
+	if wnet == "rai0" then
+		luci.sys.call("env -i /sbin/ifconfig rai0 up >/dev/null 2>/dev/null")
 		wifi_reconnect_shutdown(false, wnet)
 	else
 		wifi_reconnect_shutdown(false, wnet)
@@ -376,9 +374,8 @@ function wifi_reconnect(wnet)
 end
 
 function wifi_shutdown(wnet)
-	local vendor = dev:get("vendor")
-	if vendor == "ralink" then
-		luci.sys.call("env -i /sbin/ifdown %q >/dev/null 2>/dev/null" % wnet)
+	if wnet == "rai0" then
+		luci.sys.call("env -i /sbin/ifconfig rai0 down >/dev/null 2>/dev/null")
 		wifi_reconnect_shutdown(true, wnet)
 	else
 		wifi_reconnect_shutdown(true, wnet)
