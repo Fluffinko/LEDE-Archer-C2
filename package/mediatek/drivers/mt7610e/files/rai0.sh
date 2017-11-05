@@ -70,4 +70,5 @@ EOF
 	echo "	option mode 'ap'" >> /etc/config/wireless
 	echo "	option ssid 'LEDE_5G'" >> /etc/config/wireless
 	echo "	option encryption 'none'" >> /etc/config/wireless
+	ifconfig rai0 up
 }
