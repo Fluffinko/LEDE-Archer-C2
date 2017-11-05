@@ -292,9 +292,6 @@ function iface_reconnect(iface)
 	if net then
 		luci.sys.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % iface)
 		luci.http.status(200, "Reconnected")
-		if iface="rai0" then
-			luci.sys.call("env -i /etc/init.d/network reload >/dev/null 2>/dev/null")
-		return
 	end
 
 	luci.http.status(404, "No such interface")
@@ -355,7 +352,8 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 		netmd:commit("wireless")
 
 		if vendor == "ralink" then
-                        luci.sys.call("(env -i /sbin/wifi reload) >/dev/null 2>/dev/null")
+                        luci.sys.call("env -i /sbin/wifi restart) >/dev/null 2>/dev/null")
+			luci.sys.call("env -i /bin/ubus call network restart >/dev/null 2>/dev/null")
                 else
 			luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		end
