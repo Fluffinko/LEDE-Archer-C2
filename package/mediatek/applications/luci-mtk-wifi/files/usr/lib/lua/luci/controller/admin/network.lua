@@ -292,6 +292,8 @@ function iface_reconnect(iface)
 	if net then
 		luci.sys.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % iface)
 		luci.http.status(200, "Reconnected")
+		if iface="rai0" then
+			luci.sys.call("env -i /etc/init.d/network reload >/dev/null 2>/dev/null")
 		return
 	end
 
